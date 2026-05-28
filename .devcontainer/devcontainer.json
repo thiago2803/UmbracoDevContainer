@@ -1,0 +1,36 @@
+{
+  "name": "UmbracoDevContainer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "containerEnv": {
+    "UMBRACO_USER_NAME": "${localEnv:UMBRACO_USER_NAME}",
+    "UMBRACO_USER_EMAIL": "${localEnv:UMBRACO_USER_EMAIL}",
+    "UMBRACO_USER_PASSWORD": "${localEnv:UMBRACO_USER_PASSWORD}",
+    "SQL_SA_PASSWORD": "${localEnv:SQL_SA_PASSWORD}",
+    "DEVCONTAINER_CERT_PASSWORD": "${localEnv:DEVCONTAINER_CERT_PASSWORD}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "GitHub.copilot-chat",
+        "microsoft-aspire.aspire-vscode",
+        "ms-dotnettools.csharp",
+        "ms-azuretools.vscode-docker",
+        "ms-azuretools.vscode-azurefunctions",
+        "ms-vscode.azurecli",
+        "openai.chatgpt"
+      ]
+    }
+  },
+  "runServices": [
+    "sql",
+    "azurite",
+    "appconfig",
+    "aspire-dashboard"
+  ],
+  "shutdownAction": "stopCompose",
+  "remoteUser": "vscode",
+  "postCreateCommand": "dotnet dev-certs https -ep /tmp/aspnet-dev.crt --format PEM && sudo cp /tmp/aspnet-dev.crt /usr/local/share/ca-certificates/aspnet-dev.crt && sudo update-ca-certificates"
+}
