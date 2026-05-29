@@ -16,6 +16,8 @@ services:
       aspire-dashboard:
         condition: service_started
     environment:
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/workspace/.devcontainer/https/devcontainer-https.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${DEVCONTAINER_CERT_PASSWORD:-devcontainer-local-password}
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__umbracoDbDSN=Server=sql,1433;Database=UmbracoDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__AzureStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
