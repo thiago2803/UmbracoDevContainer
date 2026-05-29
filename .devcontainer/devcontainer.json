@@ -32,5 +32,5 @@
   ],
   "shutdownAction": "stopCompose",
   "remoteUser": "vscode",
-  "postCreateCommand": "dotnet dev-certs https -ep /tmp/aspnet-dev.crt --format PEM && sudo cp /tmp/aspnet-dev.crt /usr/local/share/ca-certificates/aspnet-dev.crt && sudo update-ca-certificates"
+  "postStartCommand": "mkdir -p /workspace/.devcontainer/https && if [ ! -f /workspace/.devcontainer/https/devcontainer-https.pfx ]; then dotnet dev-certs https -ep /workspace/.devcontainer/https/devcontainer-https.pfx -p devcontainer-local-password; fi && az appconfig kv import --auth-mode anonymous --endpoint http://appconfig:8483 --source file --path ./infra/appconfig/appconfig.dev.json --format json --profile appconfig/kvset --yes"
 }
