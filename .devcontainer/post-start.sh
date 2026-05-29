@@ -6,7 +6,9 @@ CERT_PATH="/workspace/.devcontainer/https/devcontainer-https.pfx"
 
 mkdir -p /workspace/.devcontainer/https
 if [ ! -f "$CERT_PATH" ]; then
-  dotnet dev-certs https -ep "$CERT_PATH" -p "$CERT_PASSWORD"
+  echo "Shared development certificate is missing at $CERT_PATH"
+  echo "Run the devcontainer initialize command or rebuild the container so the host-side cert setup can export it."
+  exit 1
 fi
 
 if ! command -v az >/dev/null 2>&1; then

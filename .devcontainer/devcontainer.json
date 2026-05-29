@@ -30,6 +30,7 @@
     "appconfig",
     "aspire-dashboard"
   ],
+  "initializeCommand": "pwsh -NoProfile -ExecutionPolicy Bypass -File .devcontainer/setup-dev-cert.ps1",
   "shutdownAction": "stopCompose",
   "remoteUser": "vscode",
   "postStartCommand": "bash /workspace/.devcontainer/post-start.sh"
