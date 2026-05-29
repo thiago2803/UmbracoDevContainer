@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   app:
-    image: mcr.microsoft.com/devcontainers/dotnet:10.0
+    image: mcr.microsoft.com/devcontainers/dotnet@sha256:7dce5de0e82a1d7bf31b1ab8eface12e450648ea990d00ca69b77e898cb8a2d9
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
@@ -21,7 +19,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__umbracoDbDSN=Server=sql,1433;Database=UmbracoDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__AzureStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
-      - ConnectionStrings__AppConfig=Endpoint=http://appconfig:8080;Id=;Secret=
+      - ConnectionStrings__AppConfig=Endpoint=http://appconfig:8483;Id=;Secret=
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
       - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
     env_file:
@@ -32,10 +30,10 @@ services:
       - umbraco-devcontainer
 
   aspire-dashboard:
-    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    image: mcr.microsoft.com/dotnet/aspire-dashboard@sha256:6bd14400bf477e71b7ac7c17bc7d550281aa33a8dac6654acbb72dbf223d166b
     ports:
-      - "18888:18888"
-      - "18889:18889"
+      - "127.0.0.1:18888:18888"
+      - "127.0.0.1:18889:18889"
     environment:
       - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
     networks:
@@ -44,13 +42,13 @@ services:
       - umbraco-devcontainer
 
   sql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server@sha256:d38c2a64812d775f844088e4e44ab33846eefc61157431bf9c8a3943a534c22e
     environment:
       - SA_PASSWORD=${SQL_SA_PASSWORD}
       - ACCEPT_EULA=Y
       - MSSQL_PID=Developer
     ports:
-      - "1433:1433"
+      - "127.0.0.1:1433:1433"
     volumes:
       - mssql-data:/var/opt/mssql
     command:
@@ -77,11 +75,11 @@ services:
       - devcontainer
   
   azurite:
-    image: mcr.microsoft.com/azure-storage/azurite
+    image: mcr.microsoft.com/azure-storage/azurite@sha256:dae2a5f96553962901304b94e72ef87e299d0825e4b679673bcc527a25076fe4
     ports:
-      - "10000:10000"
-      - "10001:10001"
-      - "10002:10002"
+      - "127.0.0.1:10000:10000"
+      - "127.0.0.1:10001:10001"
+      - "127.0.0.1:10002:10002"
     volumes:
       - azurite-data:/data
     networks:
@@ -90,9 +88,9 @@ services:
       - umbraco-devcontainer
 
   appconfig:
-    image: mcr.microsoft.com/azure-app-configuration/app-configuration-emulator:1.0.2
+    image: mcr.microsoft.com/azure-app-configuration/app-configuration-emulator@sha256:9451b6523b2033df43126a3e9de49b4acf362f48f5fe8dcfa9750d9a9c459304
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8483:8483"
     networks:
       - devcontainer
     profiles:

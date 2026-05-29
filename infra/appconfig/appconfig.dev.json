@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "key": "App:Name",
+      "value": "UmbracoDevContainer",
+      "label": "dev",
+      "content_type": null,
+      "tags": {}
+    },
+    {
+      "key": "Logging:LogLevel:Default",
+      "value": "Information",
+      "label": "dev",
+      "content_type": null,
+      "tags": {}
+    },
+    {
+      "key": ".appconfig.featureflag/Beta",
+      "value": "{\"id\":\"Beta\",\"description\":\"Beta feature\",\"enabled\":true,\"conditions\":{\"client_filters\":[]}}",
+      "label": "dev",
+      "content_type": "application/vnd.microsoft.appconfig.ff+json;charset=utf-8",
+      "tags": {}
+    }
+  ]
+}
