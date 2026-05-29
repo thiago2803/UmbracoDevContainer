@@ -58,15 +58,15 @@ services:
         /opt/mssql/bin/sqlservr &
         sql_pid=$$!
 
-        until /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SQL_SA_PASSWORD" -No -Q "SELECT 1" > /dev/null 2>&1; do
+        until /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -No -Q "SELECT 1" > /dev/null 2>&1; do
           sleep 2
         done
 
-        /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SQL_SA_PASSWORD" -No -Q "IF DB_ID(N'UmbracoDb') IS NULL CREATE DATABASE [UmbracoDb];"
+        /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -No -Q "IF DB_ID(N'UmbracoDb') IS NULL CREATE DATABASE [UmbracoDb];"
 
         wait "$$sql_pid"
     healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"${SQL_SA_PASSWORD}\" -No -Q 'SELECT 1' || exit 1"]
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$SA_PASSWORD\" -No -Q 'SELECT 1' || exit 1"]
       interval: 10s
       retries: 10
       start_period: 30s
