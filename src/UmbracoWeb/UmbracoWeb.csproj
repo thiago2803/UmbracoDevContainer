@@ -6,8 +6,19 @@
     <CompressionEnabled>false</CompressionEnabled> <!-- Disable compression. E.g. for umbraco backoffice files. These files should be precompressed by node and not let dotnet handle it -->
   </PropertyGroup>
 
+  <!-- OpenTelemetry: traces, metrics, OTLP export and Serilog log forwarding -->
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
+    <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Umbraco.Cms" />
+    <PackageReference Include="Umbraco.Forms" />
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" />
   </ItemGroup>
 
@@ -28,5 +39,13 @@
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
+
+  <!-- Exclude umbraco folder from publish to prevent conflicts on read-only filesystem -->
+  <ItemGroup>
+    <Content Remove="umbraco\**" />
+    <Compile Remove="umbraco\**" />
+    <EmbeddedResource Remove="umbraco\**" />
+    <None Remove="umbraco\**" />
+  </ItemGroup>
 
 </Project>
